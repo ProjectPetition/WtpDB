@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Jul 21 15:18:13 2014
 
-@author: Pavani R
-"""
 import projpet_db, projpet_scrape,collections,peewee,json,datetime
 import time
   
