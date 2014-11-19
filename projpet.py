@@ -41,13 +41,11 @@ def main():
       print "wtp_data_petitions done"
       
       
-      #pets = tablelist[0].select().where(~(tablelist[0].id >> None))
-      pets = (tablelist[0].select().where(tablelist[0].serial >2111) )
+     
+      pets = (tablelist[0].select())
       
-      #Peers.select().where(~(Peers.deleted >> None))
+    
       
-      #print pets.execute()
-      print pets
 
       for pet in pets:
           
