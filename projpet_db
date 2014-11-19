@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 16 16:17:55 2014
 
-@author: Pavani R
-"""
 import collections,peewee
 
 
