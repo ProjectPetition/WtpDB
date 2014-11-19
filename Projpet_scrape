@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jul 16 14:32:57 2014
 
-@author: Pavani R
-"""
 import requests, peewee,json, unicodedata
 class Project_scrape:
   
    
  
-#def fetching_responses(self):
-#    r = requests.get('')
+
 
   def loading_contents(self, f):
    fil = open(f)
@@ -72,7 +66,6 @@ class Project_scrape:
                  "signature_count" : int(b['results'][i]['signatureCount']),
                  "signatures_needed" : int(b['results'][i]['signaturesNeeded']),
                  "url" : str((b['results'][i]['url']).encode('utf8', 'ignore')),
-#"url" : str((b['results'][i]['url']).decode(encoding).encode('utf8', 'ignore')),
                  "deadline" : int(b['results'][i]['deadline']),
                  "status" : str(b['results'][i]['status']),
                  "created" : int(b['results'][i]['created'])
