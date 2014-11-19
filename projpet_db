@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jul 16 16:17:55 2014
+
+@author: Pavani R
+"""
+import collections,peewee
+
+
+class Project_db:
+ def database_conn(self):
+    
+    tables = collections.namedtuple('tables',['a','b','c','d','e','f'])
+    tablelist= []
+    # connect to database  
+    db = peewee.MySQLDatabase("dbname",host="hostname",port=portno,user="uname",passwd="pwd")
+    
+    class MySQLModel(peewee.Model):
+        class Meta:
+            database = db
+    
+    db.connect()
+    class wtp_data_petitions(MySQLModel):
+        serial= peewee.IntegerField()
+        id = peewee.CharField()
+        type = peewee.CharField()
+        title = peewee.BlobField()
+        body = peewee.BlobField()
+        signature_threshold = peewee.IntegerField()
+        signature_count = peewee.IntegerField()
+        signatures_needed= peewee.IntegerField()
+        url = peewee.CharField()
+        deadline = peewee.DateField()
+        status= peewee.CharField()
+        created = peewee.DateField()
+    
+    class wtp_data_issues(MySQLModel):
+        id = peewee.IntegerField()
+        name = peewee.CharField()
+    
+    class wtp_data_petition_issues(MySQLModel):
+        petition_id = peewee.CharField()
+        issue_id = peewee.IntegerField()
+    
+    class wtp_data_petition_responses(MySQLModel):
+        petition_id = peewee.CharField()
+        response_id = peewee.CharField()
+        association_time = peewee.DateField()
+    
+    class wtp_data_responses(MySQLModel):
+        id = peewee.CharField()
+        url = peewee.CharField()
+    
+    class wtp_data_signatures(MySQLModel):
+        id = peewee.CharField()
+        petition_id = peewee.CharField()
+        type = peewee.CharField()
+        name = peewee.CharField()
+        city = peewee.CharField()
+        state = peewee.CharField()
+        zip = peewee.CharField()
+        created = peewee.DateField()
+        
+    tablelist = [wtp_data_petitions,wtp_data_issues,wtp_data_petition_issues,wtp_data_petition_responses,wtp_data_responses,wtp_data_signatures]
+    return tablelist
+    
+    
