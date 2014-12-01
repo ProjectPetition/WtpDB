@@ -1,0 +1,44 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 05 11:19:58 2014
+
+@author: Pavani R
+"""
+
+import projpet_db, projpet_scrape,collections,peewee,json,datetime,requests,unicodedata,time
+from datetime import timedelta,date
+
+def main():
+    
+   
+   pdb = projpet_db.Project_db()
+   ps = projpet_scrape.Project_scrape()
+   tablelist = []
+   tablelist = pdb.database_conn()
+   
+   s = requests.Session()
+  
+   petlist = []
+   pets = (tablelist[0].select())
+   print pets
+   for pet in pets:
+          
+    print pet.id 
+    petid = pet.id 
+     
+   
+    dict1 = ps.response_extract(petid)
+    print dict1
+    try:
+     tablelist[4].create(url = dict1['url'],id = dict1['id'])
+    except:
+     print "response already exists in db or null"
+    try:      
+     tablelist[3].create(petition_id = str(petid), response_id = dict1['id'], association_time = datetime.date.fromtimestamp(dict1['associationtime']))
+    except:      
+     print "already associated"
+    time.sleep(0.5)
+
+   print "responses done" 
+if __name__ =='__main__':
+    main()
