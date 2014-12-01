@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov 05 11:19:58 2014
+
+@author: Pavani R
+"""
+
+import projpet_db, projpet_scrape,collections,peewee,json,datetime,requests,unicodedata,time
+from datetime import timedelta,date
+
+def main():
+    
+   
+   pdb = projpet_db.Project_db()
+   ps = projpet_scrape.Project_scrape()
+   tablelist = []
+   tablelist = pdb.database_conn()
+   pets = (tablelist[0].select().order_by(tablelist[0].created.asc()))
+   s = requests.Session()
+  
+   petlist = []
+     
+   start_date = date(2013,05,01)
+   print "extracted petitions from file"
+   for single_date in (start_date + timedelta(n) for n in range(575)):
+     print single_date
+     after =  time.mktime(datetime.datetime.strptime(str(single_date), '%Y-%m-%d').timetuple())
+     before = time.mktime(datetime.datetime.strptime(str(single_date + timedelta(1)), '%Y-%m-%d').timetuple())
+     print single_date + timedelta(1)
+     petlist = ps.petition_extract(after,before)         
+     for dict1 in petlist:
+        petitionid = tablelist[0].select().where(dict1['id'] == tablelist[0].id)
+        
+        try:
+        
+         tablelist[0].create(id = dict1['id'],type=dict1['type'],title=dict1['title'],body = dict1['body'],signature_threshold=dict1['signature_threshold'],
+         signature_count=dict1['signature_count'],signatures_needed=dict1['signatures_needed'],url=dict1['url'],deadline=datetime.date.fromtimestamp(dict1['deadline']),status=dict1['status'],
+         created=datetime.date.fromtimestamp(dict1['created']))
+        except:
+         print dict1['id']+ "petition already exists in db"
+        time.sleep(0.5)
+            
+   print "wtp_data_petitions done"
+    
+if __name__ =='__main__':
+    main()
